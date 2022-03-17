@@ -15,7 +15,8 @@ exports.login= async (req,res)=>{
 
         res.status(200).json({
             status:"success",
-            token
+            token,
+            user_name:userExist.name
         })
     }catch(err){
         res.status(400).send("Something went wrong, try again.")
