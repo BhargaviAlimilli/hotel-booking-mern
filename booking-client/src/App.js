@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from './components/ProtectedRoute'
 import Dashboard from './users/DashBoard'
 import DashboardSeller from './users/DashBoardSeller'
+import NewHotel from './hotels/NewHotel'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route exact path='/register' component={Register} />
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
         <PrivateRoute exact path= '/dashboard/seller' component={DashboardSeller} />
+        <PrivateRoute exact path= '/hotel/new' component={NewHotel} />
       </div>
     </Router>
   );

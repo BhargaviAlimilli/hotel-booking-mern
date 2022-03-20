@@ -1,5 +1,7 @@
 const User= require('./../model/userModel')
 const jwt= require('jsonwebtoken')
+const {promisify}= require('util')
+const { nextTick } = require('process')
 
 exports.login= async (req,res)=>{
     console.log(req.body)
@@ -16,7 +18,7 @@ exports.login= async (req,res)=>{
         res.status(200).json({
             status:"success",
             token,
-            user_name:userExist.name
+            user:userExist
         })
     }catch(err){
         res.status(400).send("Something went wrong, try again.")
@@ -42,6 +44,15 @@ exports.register= async (req,res)=>{
         res.status(400).send("Something went wrong, try again.")
         console.log("Error", err)
     }
+}
+
+
+exports.isLoggedin= (req,res,next)=>{
+    const token = req.headers.authorization.split(' ')[1]
+    console.log(token)  
+   const user=  jwt.verify(token,process.env.SECRET_KEY)
+   req.user=user
+   next()
 }
 
 
