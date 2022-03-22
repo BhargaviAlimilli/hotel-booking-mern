@@ -5,7 +5,7 @@ import {toast} from 'react-toastify'
 import {useDispatch} from 'react-redux'
 // import axios from 'axios'
 
-function Login(){
+function Login({history}){
     const [email, setEmail]= useState('')
     const [password, setPassword]= useState('')
     const dispatch= useDispatch()
@@ -14,15 +14,16 @@ function Login(){
         console.log("SEND LOGIN DATA", { email, password });
         e.preventDefault();
         try {
-            const res = await loginUser({ email,password })
+            const res = await loginUser({ email,password })      
             console.log(res.data)
-            toast.success("Successfully loggedin!!")
-            // window.localStorage.setItem('auth', JSON.stringify(res.data))
-            // dispatch({
-            //     type:"LOGGED_IN_USER",
-            //     payload: res.data
-            // })
-
+            if (res.data) {
+                window.localStorage.setItem("auth", JSON.stringify(res.data));
+                dispatch({
+                  type: "LOGGED_IN_USER",
+                  payload: res.data,
+                });
+                history.push("/dashboard");
+              }
         } catch (err) {
           console.log(err)
           toast.error(err.response.data)
