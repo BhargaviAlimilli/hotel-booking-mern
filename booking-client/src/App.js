@@ -25,6 +25,7 @@ function App() {
         <PrivateRoute exact path= '/dashboard/seller' component={DashboardSeller} />
         <PrivateRoute exact path= '/hotel/new' component={NewHotel} />
         <PrivateRoute exact path= '/stripe/callback' component={StripeCallBack} />
+
       </div>
     </Router>
   );

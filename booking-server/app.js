@@ -4,6 +4,7 @@ const stripeRouter= require('./routes/stripeRoute')
 const app= express()
 const cors= require('cors')
 const morgan= require('morgan')
+const hotelRouter= require('./routes/hotelRoute')
 
 app.use(cors())
 app.use(morgan('dev'))
@@ -14,6 +15,7 @@ app.get('/', (req,res)=>{
 
 app.use('/api', authRouter)
 app.use('/api/stripe', stripeRouter)
+app.use('/api/hotel', hotelRouter)
 
 
 module.exports= app
