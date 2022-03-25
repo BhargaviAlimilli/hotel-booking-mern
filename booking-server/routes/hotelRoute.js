@@ -9,6 +9,7 @@ const router= express.Router()
 router.route('/create-hotel').post(authController.isLoggedin, formidable() ,hotelController.create)
 router.route('/all-hotels').get(hotelController.hotels)
 router.get("/image/:hotelId", hotelController.image);
+router.route('seller/hotels').get(authController.isLoggedin, hotelController.sellerHotels)
 
 
 

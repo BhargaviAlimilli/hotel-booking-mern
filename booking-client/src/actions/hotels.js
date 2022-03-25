@@ -13,6 +13,10 @@ export const allHotels = async () =>{
   return await axios.get(`${process.env.REACT_APP_API}/hotel/all-hotels`);
 }
 
+export const sellerHotels= async(token)=>{
+  return await axios.get(`${process.env.REACT_APP_API}/seller/hotels`)
+}
+
 export const diffDays = (from, to) => {
   const day = 24 * 60 * 60 * 1000;
   const start = new Date(from);
