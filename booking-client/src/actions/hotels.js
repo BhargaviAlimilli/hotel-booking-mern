@@ -8,7 +8,7 @@ export const createHotel = async (token, data) =>{
 })
 }
 
-
+// to get all hotels for users in home 
 export const allHotels = async () =>{
   return await axios.get(`${process.env.REACT_APP_API}/hotel/all-hotels`);
 }
@@ -20,3 +20,42 @@ export const diffDays = (from, to) => {
   const difference = Math.round(Math.abs((start - end) / day));
   return difference;
 };
+
+export const sellHotelsData= async(token)=>{
+  return await axios.get(`${process.env.REACT_APP_API}/hotel/seller/hotels`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
+
+export const deleteHotel = async (token, hotelId) => { 
+  return await axios.delete(`${process.env.REACT_APP_API}/hotel/delete-hotel/${hotelId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
+export const read = async (hotelId) => {
+  console.log("hello from show more")
+  return await axios.get(`${process.env.REACT_APP_API}/hotel/${hotelId}`)
+}
+
+export const updateHotel = async (token, data, hotelId) => {
+  return await axios.put(
+    `${process.env.REACT_APP_API}/hotel/update-hotel/${hotelId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+  }
+
+
+
+
+

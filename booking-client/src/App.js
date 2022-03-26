@@ -10,6 +10,7 @@ import Dashboard from './users/DashBoard'
 import DashboardSeller from './users/DashBoardSeller'
 import NewHotel from './hotels/NewHotel'
 import StripeCallBack from './stripe/stripeCallback'
+import EditHotel from './hotels/EditHotel'
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
         <PrivateRoute exact path= '/dashboard/seller' component={DashboardSeller} />
         <PrivateRoute exact path= '/hotel/new' component={NewHotel} />
         <PrivateRoute exact path= '/stripe/callback' component={StripeCallBack} />
+        <PrivateRoute exact path="/hotel/edit/:hotelId" component={EditHotel} />
+
 
       </div>
     </Router>

@@ -2,6 +2,7 @@ const User= require('./../model/userModel')
 const queryString= require('query-string')
 const Stripe = require('stripe');
 const stripe = Stripe('sk_test_51KemHASFF896983LN9fDp2tbyW1CtDD0iVLCD6KNWVdTkgVaMDlFiJaOpyEK02NnNzHj9MZDaz8A964sIuhQH4K100TLBxguce');
+// sk_test_51KeoHDSGPgKI86BHSk4nvbDDw8ZMlXvmuSuQDLzvZp5NGQqAIQUN3nA2ixAJJsTB7in2Yg7uy6YMBCQZosZvLt0f004EHPV6KG
 
 exports.createStripeAcc= async (req,res)=>{
   const user = await User.findById(req.user._id).exec();

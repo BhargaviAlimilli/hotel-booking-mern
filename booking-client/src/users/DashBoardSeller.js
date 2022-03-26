@@ -2,15 +2,28 @@ import DashboardNav from "../components/DashboardNav";
 import ComponentNav from './../components/ConnectNav';
 import { Link } from "react-router-dom";
 import {HomeOutlined} from '@ant-design/icons'
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import { useSelector } from "react-redux";
 import {createConnectAccount} from './../actions/stripe'
 import {toast} from 'react-toastify'
+import { sellHotelsData, deleteHotel} from "../actions/hotels";
+import SmallCard from '../components/cards/smallCard'
 
 const DashboardSeller = () => {
   
   const [Loading,setLoading]= useState(false)
+  const [hotels, setHotels] = useState([]);
   const {auth}= useSelector((state)=> state)
+
+  useEffect(() => {
+    loadSellersHotels();
+  }, []);
+
+  const loadSellersHotels = async () => {
+    let resp = await sellHotelsData(auth.token);
+    setHotels(resp.data);
+    console.log(resp)
+  };
 
   const stripeClick = async () => {
     setLoading(true);
@@ -24,7 +37,14 @@ const DashboardSeller = () => {
       toast.error("Stripe connect failed, Try again.");
       setLoading(false);
     }
-  };
+  }
+  const handleHotelDelete = async (hotelId) => {
+    if (!window.confirm("Are you sure?")) return;
+    deleteHotel(auth.token, hotelId).then((res) => {
+      toast.success("Hotel Deleted")
+      loadSellersHotels();
+    })
+  }
 
   const connected=()=>{
     return(
@@ -40,6 +60,19 @@ const DashboardSeller = () => {
             </Link>
           </div>
         </div>
+        <div className="row">
+        {/* {JSON.stringify(hotels)} */}
+        {hotels.map((h) => (
+          <SmallCard
+            key={h._id}
+            h={h}
+            showViewMoreButton={false}
+            owner={true}
+            handleHotelDelete={handleHotelDelete}
+          />
+        ))}
+
+      </div>
       </div>
       </>
     )
