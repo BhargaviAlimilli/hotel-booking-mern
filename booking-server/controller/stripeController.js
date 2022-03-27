@@ -1,8 +1,8 @@
 const User= require('./../model/userModel')
 const queryString= require('query-string')
 const Stripe = require('stripe');
-const stripe = Stripe('sk_test_51KemHASFF896983LN9fDp2tbyW1CtDD0iVLCD6KNWVdTkgVaMDlFiJaOpyEK02NnNzHj9MZDaz8A964sIuhQH4K100TLBxguce');
-// sk_test_51KeoHDSGPgKI86BHSk4nvbDDw8ZMlXvmuSuQDLzvZp5NGQqAIQUN3nA2ixAJJsTB7in2Yg7uy6YMBCQZosZvLt0f004EHPV6KG
+const stripe = Stripe('sk_test_51KhpDESJAEAUfWaOH5CGI0jjehoOuYPU5UtIKmrxSAfGiGOPBS9oOQWcysZJJAmueCmeuIxNjh9axykFdKXoH5Qa00vvqYC9wM');
+const Hotel = require('./../model/hotelModel')
 
 exports.createStripeAcc= async (req,res)=>{
   const user = await User.findById(req.user._id).exec();
@@ -93,6 +93,42 @@ exports.getAccBalance= async(req,res)=>{
 //   }
 // }
 
+exports.stripeSessionId = async (req, res) => {
+  // console.log("you hit stripe session id", req.body.hotelId);
+  const hotelId= req.body.hotelId
+
+  const hotel = await Hotel.findById(hotelId).populate("postedBy").exec()
+  const stripeFee= (hotel.price*20)/100
+  console.log(stripeFee)
+  console.log(hotel.postedBy.stripe_account_id)
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [
+      {
+        name: hotel.title,
+        amount: hotel.price*100,
+        currency: "inr",
+        quantity: 1,
+      },
+    ],
+    payment_intent_data: {
+      application_fee_amount: stripeFee,
+      transfer_data: {
+        destination: hotel.postedBy.stripe_account_id,
+      },
+    },
+    success_url: `${process.env.STRIPE_SUCCESS_URL}?success=true`,
+    cancel_url: `${process.env.STRIPE_CANCEL_URL}?canceled=true`,
+  });
+
+  await User.findByIdAndUpdate(req.user._id, { stripeSession: session }).exec()
+  res.send({
+    sessionId: session.id,
+  });
+
+  console.log("SESSION =====> ", session);
+};
 
 
 

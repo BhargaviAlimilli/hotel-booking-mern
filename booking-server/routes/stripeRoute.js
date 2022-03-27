@@ -8,7 +8,7 @@ router.route('/create-connect-account').post(authController.isLoggedin,stripeCon
 router.route('/get-account-status').post(authController.isLoggedin, stripeController.getAccStatus)
 router.route('/get-account-balance').post(authController.isLoggedin, stripeController.getAccBalance)
 // router.route('/payout-setting').post(authController.isLoggedin, stripeController.payoutSetting)
-
+router.route('/stripe-session').post(authController.isLoggedin, stripeController.stripeSessionId)
 
 module.exports= router
 

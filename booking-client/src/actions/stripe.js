@@ -43,4 +43,19 @@ export const currencyFormatter = (data) => {
 //   )
 // }
   
+export const getSessionId = async (token, hotelId) =>{
+  return await axios.post(
+    `${process.env.REACT_APP_API}/stripe/stripe-session`,
+    {
+      hotelId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+
+
 

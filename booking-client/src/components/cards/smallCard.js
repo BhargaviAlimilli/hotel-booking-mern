@@ -31,8 +31,8 @@ const SmallCard = ({ h, handleHotelDelete = (f) => f,   owner = false,
                 {h.title}{" "}
                 <span className="float-right text-primary">
                   {currencyFormatter({
-                    amount: h.price,
-                    currency: "usd",
+                    amount: h.price * 100,
+                    currency: "inr",
                   })}
                 </span>{" "}
               </h3>
@@ -52,7 +52,7 @@ const SmallCard = ({ h, handleHotelDelete = (f) => f,   owner = false,
               <div className="d-flex justify-content-between h4">
               {showViewMoreButton && (
                   <button
-                    onClick={() => history.push(`/hotel/${h._id}`)}
+                    onClick={() => history.push(`/hotels/${h._id}`)}
                     className="btn btn-primary"
                   >
                     Show more
