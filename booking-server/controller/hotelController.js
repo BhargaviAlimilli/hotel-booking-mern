@@ -124,9 +124,12 @@ exports.searchHotel= async(req,res)=>{
   console.log(req.body)
   const { location, date, bed } = req.body;
   const fromDate = date.split(",");
+  console.log(fromDate[1])
   // console.log(fromDate[0]);
+  // db.posts.find({"created_on": {"$gte": new Date(2012, 7, 14), "$lt": new Date(2012, 7, 15)}})
   let result = await Hotel.find({
-    from: { $gte: new Date(fromDate[0]) },
+    from: { $lte: new Date(fromDate[0]) },
+    to:{$gte: new Date(fromDate[1])},
     location,
   })
     .select("-image.data")
@@ -135,7 +138,7 @@ exports.searchHotel= async(req,res)=>{
   res.json(result);
 };
 
-
+//db.posts.find({"created_on": {"$gte": new Date(2012, 7, 14), "$lt": new Date(2012, 7, 15)}})
 
 
 
