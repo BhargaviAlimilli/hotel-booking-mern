@@ -14,11 +14,13 @@ import EditHotel from './hotels/EditHotel'
 import Hotel from './hotels/HotelView'
 import StripeCancel from './stripe/stripeCancel'
 import StripeSuccess from './stripe/stripeSuccess'
+import SearchResult from './hotels/SearchHotelPage'
 
 function App() {
   return (
     <Router>
       <div className="App">
+      
         <ToastContainer />
         <Route path='/' component={Navbar} />
         <Route exact path='/' component={Home} />
@@ -32,8 +34,7 @@ function App() {
         <Route  exact path='/hotels/:hotelId' component={Hotel} />
         <PrivateRoute exact path= '/stripe/success/:hotelId' component={StripeSuccess} />
         <PrivateRoute exact path= '/stripe/cancel' component={StripeCancel} />
-
-
+        <Route exact path="/search-result" component={SearchResult} />
 
       </div>
     </Router>

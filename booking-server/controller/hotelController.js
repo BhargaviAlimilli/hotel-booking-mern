@@ -1,5 +1,6 @@
 const Hotel= require('./../model/hotelModel.js')
 const fs= require('fs')
+const Order= require('./../model/orderModel')
 
 
 exports.hotelOwner = async (req, res, next) => {
@@ -108,4 +109,85 @@ exports.update = async (req, res) => {
     res.status(400).send("Hotel update failed. Try again.");
   }
 };
+
+exports.userBookings= async(req,res)=>{
+  console.log(req.user)
+  const all = await Order.find({ orderedBy: req.user._id })
+    .select("session")
+    .populate("hotel", "-image.data")
+    .populate("orderedBy", "_id name")
+    .exec();
+  res.json(all);
+}
+
+exports.searchHotel= async(req,res)=>{
+  console.log(req.body)
+  const { location, date, bed } = req.body;
+  const fromDate = date.split(",");
+  // console.log(fromDate[0]);
+  let result = await Hotel.find({
+    from: { $gte: new Date(fromDate[0]) },
+    location,
+  })
+    .select("-image.data")
+    .exec();
+  // console.log("SEARCH LISTINGS", result);
+  res.json(result);
+};
+
+
+
+
+
+
+
+//   const fromDate = date.split(",")[0];
+//   console.log(fromDate);
+//   const toDate=date.split(',')[1]
+//   console.log(toDate)
+//   console.log( new Date(fromDate) )
+//   console.log( new Date(toDate) )
+
+//   let result = await Hotel.find({
+//     location
+//   })
+//     .select("-image.data")
+//     .exec();
+//   console.log(result[0])
+//   console.log(result[1], "........")
+//   console.log("SEARCH LISTINGS", result)
+//   console.log(result.length)
+//   console.log((new Date(fromDate) >= result[0].from))
+//   console.log( new Date(toDate)<=result[0].to )
+//   console.log((new Date(fromDate) >= result[1].from))
+//   console.log( new Date(toDate)<=result[1].to )
+
+//   let final
+//   let ress= result.map((hotels, index)=>{
+//     if((new Date(fromDate) >= hotels[index].from)  && (new Date(toDate)<=hotels[index].to)){     
+//       final= result[index]
+//       console.log(final)
+//     }
+//   })
+//   console.log(ress)
+// }
+
+
+// //   if(result){
+// //     let final
+// //     for(let i= 0; i<=result.length; i++){
+// //       if((new Date(fromDate) >= result[i].from)  && (new Date(toDate)<=result[i].to)){     
+// //         final= result[i]
+// //         console.log(final)
+// //       }
+// //       console.log(".............", final)
+// //     } 
+// //   }
+// // else(
+// //   res.json({
+// //     res:"no hotels"
+// //   })
+// //   )
+// // }
+
 

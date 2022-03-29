@@ -13,8 +13,8 @@ router.route('/seller/hotels').get(authController.isLoggedin, hotelController.ow
 router.route('/:hotelId').get(hotelController.read)
 router.route("/update-hotel/:hotelId").put(authController.isLoggedin,hotelController.hotelOwner,formidable(), hotelController.update)
 router.route('/delete-hotel/:hotelId').delete(authController.isLoggedin,hotelController.hotelOwner, hotelController.remove)
-
-
+router.route('/user/hotels').get(authController.isLoggedin, hotelController.userBookings)
+router.route('/search/opp').post(hotelController.searchHotel)
 
 module.exports= router
 
