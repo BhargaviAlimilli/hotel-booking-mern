@@ -3,6 +3,7 @@ import queryString from "query-string";
 import { Link } from "react-router-dom";
 import Search from "../components/SearchBar";
 import { searchListings } from "../actions/hotels";
+import SmallCard from "./../components/cards/smallCard"
 
 const SearchResult = () => {
   // state
@@ -21,9 +22,19 @@ const SearchResult = () => {
   }, [window.location.search]);
 
   return (
-    <div className="container">
-      <div className="row">{JSON.stringify(hotels, null, 4)}</div>
-    </div>
+    <>
+      <div className="col">
+        <br />
+        <Search />
+      </div>
+      <div className="container">
+        <div className="row">
+          {hotels.map((h) => (
+            <SmallCard key={h._id} h={h} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 
